@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute" width="400" height="500"
+	showCloseButton="true" close="closeWindow(this)"
+	creationComplete="initializeRegistration()" creationPolicy="all"
+	title="Not registered. Would you like to register?">
+<mx:Script source="RegistrationScript.as"/>
+
+	<mx:Form label="Registration">
+			<mx:Image id="userImage">
+			
+			</mx:Image>
+		<mx:FormItem label="Registration Id">
+			<mx:Text id="registrationId" text="-1">
+				
+			</mx:Text>
+		</mx:FormItem>
+		<mx:FormItem label="First Name">
+			<mx:TextInput id="firstName">
+				
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="Last Name">
+			<mx:TextInput id="lastName">
+				
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="Login ID">
+			<mx:TextInput id="loginName">
+				
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="Password">
+			<mx:TextInput id="password" displayAsPassword="true">
+				
+			</mx:TextInput>
+			 
+		</mx:FormItem>
+		<mx:FormItem label="Email">
+			<mx:TextInput id="email">
+				
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="Phone">
+			<mx:TextInput id="phone">
+				
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="Fax">
+			<mx:TextInput id="fax">
+				
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="SMS">
+			<mx:TextInput id="sms">
+				
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="Twitter?">
+			<mx:TextInput id="twitter">
+				
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="uploadImage">
+			<mx:Button label="Upload Image" click="uploadImage(this)"/>
+		</mx:FormItem>
+		<mx:FormItem>
+			<mx:Button label="register" click="registerUser(this)">
+				
+			</mx:Button>
+			<mx:Button label="clear" click="clearUser(this)">
+				
+			</mx:Button>
+		</mx:FormItem>		
+	</mx:Form>
+</mx:TitleWindow>

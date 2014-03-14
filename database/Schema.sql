@@ -1,0 +1,57 @@
+-- Database schema
+
+CREATE TABLE Contact(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  category enum('Heating Oil Company', 'Environment', 'Tank cleaning', 'Marinas', 'Cruises'),
+  sicCode VARCHAR(255),
+  firstName VARCHAR(255),
+  lastName VARCHAR(255),
+  Company VARCHAR(255) NOT NULL,
+  Address VARCHAR(255),
+  City VARCHAR(255),
+  State VARCHAR(255),
+  Zip VARCHAR(255),
+  Phone VARCHAR(255),
+  Fax VARCHAR(255),
+  notes VARCHAR(255),
+  brochureSent BOOLEAN,
+  brochureSentDate DATETIME,
+  isCustomer BOOLEAN,
+  creationDate DATETIME,
+  createdBy VARCHAR(255),
+  creationIP VARCHAR(255),
+  modifiedBy VARCHAR(255),
+  modificationDate DATETIME,
+  modificationIP VARCHAR(255),  
+  deleted BOOLEAN,
+  UNIQUE KEY Company USING BTREE (Company,City,State)
+)Type=INNODB;
+
+CREATE TABLE UserTable(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  firstName VARCHAR(255),
+  lastName VARCHAR(255),
+  loginName VARCHAR(255),
+  password VARCHAR(255),
+  isAdmin BOOLEAN,
+  email VARCHAR(255),
+  phone VARCHAR(255),
+  fax VARCHAR(255),
+  sms VARCHAR(255),
+  twitterId VARCHAR(255),
+  isApproved BOOLEAN,
+  userImage TEXT,
+  defaultCurrency int,
+  defaultLanguage int,
+  defaultDateFormat VARCHAR(255),
+  lastLogin DATETIME,
+  lastUpdated DATETIME,
+  createdBy VARCHAR(255),
+  creationDate DATETIME,
+  creationIP VARCHAR(255),
+  modifiedBy VARCHAR(255),
+  modificationDate DATETIME,
+  modificationIP VARCHAR(255),
+  deleted BOOLEAN)Type=INNODB;
+
+

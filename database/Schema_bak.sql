@@ -1,0 +1,46 @@
+CREATE TABLE Contact (
+  `id` int(11) NOT NULL auto_increment,
+  `category` enum('Heating Oil Company','Environment','Tank cleaning','Marinas','Airport','Cruises') default NULL,
+  `sicCode` varchar(255) default NULL,
+  `firstName` varchar(255) default NULL,
+  `lastName` varchar(255) default NULL,
+  `Company` varchar(255) NOT NULL,
+  `Address` varchar(255) default NULL,
+  `City` varchar(255) default NULL,
+  `State` varchar(255) default NULL,
+  `Zip` varchar(255) default NULL,
+  `Phone` varchar(255) default NULL,
+  `Fax` varchar(255) default NULL,
+  `notes` varchar(255) default NULL,
+  `brochureSent` tinyint(1) default NULL,
+  `brochureSentDate` datetime default NULL,
+  `creationDate` datetime default NULL,
+  `createdBy` varchar(255) default NULL,
+  `creationIP` varchar(255) default NULL,
+  `deleted` tinyint(1) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `Company` USING BTREE (`Company`,`City`,`State`)
+) ENGINE=MyISAM AUTO_INCREMENT=4214 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE UserTable (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `password` varchar(255) default NULL,
+  `isAdmin` tinyint(1) default NULL,
+  `isActive` tinyint(1) default NULL,
+  `userImage` text,
+  `defaultCurrency` int(11) default NULL,
+  `defaultLanguage` int(11) default NULL,
+  `defaultDateFormat` varchar(255) default NULL,
+  `createdBy` varchar(255) default NULL,
+  `creationDate` datetime default NULL,
+  `creationIP` varchar(255) default NULL,
+  `modifiedBy` varchar(255) default NULL,
+  `modificationDate` datetime default NULL,
+  `modificationIP` varchar(255) default NULL,
+  `deleted` tinyint(1) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `defaultCurrency` (`defaultCurrency`),
+  KEY `defaultLanguage` (`defaultLanguage`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

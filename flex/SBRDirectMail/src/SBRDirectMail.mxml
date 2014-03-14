@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+				layout="absolute" 
+				creationComplete="main()" height="800" width="1024"
+				xmlns:forms="com.sbr.forms.*">
+	
+	<!--
+		SmartFoxClient Actionscript 3.0 MXML template
+		version 1.0.0
+		
+		(c) 2004-2007 gotoAndPlay()
+		www.smartfoxserver.com
+		www.gotoandplay.it
+	-->
+	
+	<!-- import main script file -->
+	<mx:Script source="main.as" />
+	<mx:VBox width="100%" height="100%">
+	<mx:HBox>
+	<mx:Text text="Welcome ">
+		
+	</mx:Text>
+	<mx:Text id="userID">
+		
+	</mx:Text>
+	<mx:Button label="Update Registration" click="updateRegistration()"/>	
+	</mx:HBox>
+	<mx:Image id="loggedInUser">
+		
+	</mx:Image>
+		
+	<mx:HBox width="100%" height="100%">
+		<mx:Panel title="Contact List and Reminders" width="30%">
+			
+		<mx:Text text="Instructions:Double click on any row to view details">
+			
+		</mx:Text>
+		<mx:DataGrid id="contactList" 
+			doubleClickEnabled="true" doubleClick="this.contactForm.contactSelected()"
+			top="20" left="20" rowCount="10">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Id" dataField="id"/>
+				<mx:DataGridColumn headerText="Company" dataField="Company"/>
+				<mx:DataGridColumn headerText="Phone" dataField="Phone"/>
+			</mx:columns>
+		</mx:DataGrid>
+		<mx:Text id="contactListStatus" text="Rows loaded: {this.contactForm.contactArray.length} ">			
+		</mx:Text>
+		<mx:DataGrid id="globalReminderList"
+			doubleClickEnabled="true" doubleClick="this.contactForm.reminderSelected()"
+			rowCount="10">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Id" dataField="id">
+				</mx:DataGridColumn>
+				<mx:DataGridColumn headerText="Contact Id" dataField="contactId">
+					
+				</mx:DataGridColumn>
+				<mx:DataGridColumn headerText="Date" dataField="reminderDate">					
+				</mx:DataGridColumn>
+			</mx:columns>
+			
+		</mx:DataGrid>
+		</mx:Panel>
+		<mx:Panel layout="horizontal" title="Contact details" width="70%">
+			
+		<forms:ContactForm id="contactForm" 
+			creationComplete="this.contactForm.updateContainer(this.contactId, this.categoryList,
+			this.sicCode, this.firstName, this.lastName,
+			this.company,this.address,
+			this.city, this.state,this.zipCode,
+			this.phone, this.fax,
+			this.notes,
+			this.brochureSent,
+			this.isCustomer,
+			this.contactList,
+			this.globalReminderList,
+			this.contactListStatus,
+			this.notesList,
+			this.reminder
+			)" enabled="false" width="30%">
+			<mx:FormItem label="Id">
+				<mx:TextInput id="contactId" text="{this.contactForm.contact.id}"					
+					editable="false"/>
+			</mx:FormItem>
+			<mx:FormItem label="Category:" required="false">				
+				<mx:ComboBox id="categoryList"
+					dataProvider="{categories}" 
+					change="this.contactForm.contact.category=this.categoryList.selectedItem.label">					
+				</mx:ComboBox>
+			</mx:FormItem>
+			<mx:FormItem label="Company">
+				<mx:TextInput id="company" 
+					change="this.contactForm.contact.Company=this.company.text">					
+				</mx:TextInput>
+			</mx:FormItem>			
+			<mx:FormItem label="Sic Code">
+				<mx:TextInput id="sicCode"
+					change="this.contactForm.contact.sicCode=this.sicCode.text">					
+				</mx:TextInput>
+			</mx:FormItem>
+			<mx:FormItem label="First Name">
+				
+				<mx:TextInput id="firstName" 
+					change="this.contactForm.contact.firstName=this.firstName.text">
+				</mx:TextInput>
+			</mx:FormItem>
+			<mx:FormItem label="Last Name">
+				<mx:TextInput id="lastName"
+					change="this.contactForm.contact.lastName=this.lastName.text">					
+				</mx:TextInput>
+			</mx:FormItem>
+			<mx:FormItem label="Address">
+				<mx:TextArea id="address" 
+					change="this.contactForm.contact.Address=this.address.text">					
+				</mx:TextArea>
+			</mx:FormItem>
+			<mx:FormItem label="Zip">
+				<mx:TextInput id="zipCode"
+					change="this.contactForm.contact.Zip=this.zipCode.text">					
+				</mx:TextInput>
+			</mx:FormItem>			
+			<mx:FormItem label="City">
+				<mx:TextInput id="city"
+					change="this.contactForm.contact.City=this.city.text">					
+				</mx:TextInput>
+			</mx:FormItem>
+			<mx:FormItem label="State">
+				<mx:TextInput id="state"
+					change="this.contactForm.contact.State=this.state.text">					
+				</mx:TextInput>
+			</mx:FormItem>
+			<mx:FormItem label="Phone">
+				<mx:TextInput id="phone"
+					change="this.contactForm.contact.Phone=this.phone.text">					
+				</mx:TextInput>
+			</mx:FormItem>
+			<mx:FormItem label="Fax">
+				<mx:TextInput id="fax"
+					change="this.contactForm.contact.Fax=this.fax.text">
+					
+				</mx:TextInput>
+			</mx:FormItem>
+			<mx:FormItem label="Notes">
+				<mx:TextArea id="notes"
+					change="this.contactForm.contact.notes=this.notes.text">					
+				</mx:TextArea>
+			</mx:FormItem>
+			<mx:FormItem label="Brochure sent">
+				<mx:CheckBox id="brochureSent"
+					change="this.contactForm.contact.brochureSent=this.brochureSent.selected">				
+				</mx:CheckBox>
+			</mx:FormItem>
+			<mx:FormItem label="Is Customer">
+				<mx:CheckBox id="isCustomer"
+					change="this.contactForm.contact.isCustomer=this.isCustomer.selected">
+					
+				</mx:CheckBox>
+			</mx:FormItem>
+			<mx:FormItem>
+				<mx:HBox>
+					<mx:Button id="save" label="Save" click="this.contactForm.save(this.contactId.text)"/>
+					<mx:Button id="clear" label="Clear" click="this.contactForm.clear()"/>	
+				</mx:HBox>
+			</mx:FormItem>		
+		</forms:ContactForm>
+		<mx:Accordion label="Notes and reminders" width="70%" height="100%" creationPolicy="all">
+		<forms:Notes id="notesList" top="50" label="Notes">			
+		</forms:Notes>
+		<forms:Reminder label="Reminders" id="reminder">				
+		</forms:Reminder>
+		</mx:Accordion>
+		</mx:Panel>
+
+	</mx:HBox>
+	<mx:Text text="Sarva Bio Remed, LLC. All rights reserved. 2009">
+		 
+	</mx:Text>
+	</mx:VBox>
+
+
+	
+</mx:Application>

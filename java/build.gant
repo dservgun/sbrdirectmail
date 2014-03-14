@@ -1,0 +1,155 @@
+// Build file
+
+tests = './tests';
+src = './src';
+classes = './classes'
+jars = './jars'
+testClasses = './tests/classes';
+testOutput = './test-output';
+
+def jarFileName = 'sbrdm.jar'
+def jarFileDest = "${jars}"
+def jarFilePath = "${jarFileDest}/${jarFileName}";
+def hibernateDirectory = './libs/hibernate';
+def smartFoxDirectory = 'c:/Program Files/SmartFoxServerPRO_1.6.2/Server';
+def smartFoxExtensionsDestination = "${smartFoxDirectory}/javaExtensions";
+def actionScriptExtensions = "${smartFoxDirectory}/sfsExtensions";
+def smartFoxExtensionsLibDestination ="${smartFoxDirectory}/lib";
+def hibernateLibDestination="${smartFoxExtensionsLibDestination}/hibernate";
+def jarsDir = ["$smartFoxDirectory", "$hibernateDirectory"];
+def runtimeJarsDirectory = ["${smartFoxExtensionsLibDestination}"];
+def testngJar = './libs/testng-5.8/testng-5.8-jdk15.jar';
+
+
+def runtimeJars = Ant.path(id : 'runtimejars'){
+  runtimeJarsDirectory.each(){
+    fileset(dir : it){
+      include(name : '**/*.jar');
+    }
+  }
+}
+
+ant.taskdef (  name : 'groovyc' , classname : 'org.codehaus.groovy.ant.Groovyc' )
+ant.taskdef ( resource : 'testngtasks', classpath : testngJar);
+
+
+target(setup : 'Setup the compilation environment'){
+  Ant.mkdir(dir: classes);
+  Ant.mkdir(dir: tests);
+  Ant.mkdir(dir : testClasses);
+  Ant.mkdir(dir: testOutput);
+  
+}
+
+target(clean : 'Clean the build area') {
+  Ant.delete(dir: classes);
+}
+
+def dependencyJars = Ant.path(id: 'jars') {
+  jarsDir.each() {
+  	fileset(dir: it) {
+  		include(name: '**/*.jar')
+  	}
+  }
+}
+
+target (compile : 'A target to compile the system') {
+  depends(setup);
+  echo (message : 'Compiling...')
+  Ant.javac(srcDir : src, destDir : classes, debug : 'on') {
+    classpath(){
+      path(refid : 'jars');
+    }
+  }
+  Ant.copy(toDir : classes){
+    fileset(dir : src){
+      include(name : '**/*.properties');
+    }
+  }
+}
+target(compileTests : 'Compile all tests'){
+  depends(jar);
+  echo (message : 'Compiling test classes...');
+  Ant.javac(srcDir: tests, destDir : testClasses, debug : 'on'){
+    classpath(){
+      path(refid : 'runtimejars');
+      path(location : jarFilePath);
+      path(location :testngJar);
+    }
+  }
+}
+target(runTests : 'Run all tests'){
+  depends(compileTests);
+  echo(message : 'Run all tests...');
+  Ant.testng(sourcedir : tests, haltOnFailure : 'on', outputDir : testOutput){
+    classpath(){
+      path(location : tests);
+      path(refid : 'runtimejars')
+      path(location : jarFilePath)
+      path(location: testClasses);
+    }
+    jvmarg(value : '-Xmx512M');
+    classfileset(dir : testClasses, includes : '**/*.class');
+  }
+  
+}
+
+target (jar : 'Build the jar file') {
+  println ('Calling jar');
+  depends(compile);
+  echo (message :  'Building jar');
+  Ant.mkdir(dir:jarFileDest);
+  Ant.jar(basedir : classes, destfile : jarFilePath) {
+  }
+}
+
+target (copyHibernateLibs: 'Copy library files to server destination') {
+  echo(message : 'Copying library files');
+  Ant.copy(toDir: hibernateLibDestination, flatten:true){
+    fileset(dir : hibernateDirectory){
+      include(name : '**/*.jar');
+    }
+  }
+}
+
+target (copyClasses : 'Copy the class files to the destination directory'){
+  echo(message : 'Copying classes files');
+  depends(compileTests);
+  Ant.copy(toDir: smartFoxExtensionsDestination){
+    fileset(dir : classes);
+  }
+}
+
+target (deployLocal: 'Deploy locally'){  
+  depends(copyClasses);
+  depends(copyHibernateLibs);
+  Ant.copy(toDir : smartFoxDirectory){
+    fileset(file: 'startSmartFoxServer.bash');
+  }
+}
+target (deployStage: 'Deploy jar files to the stage server'){
+  depends(jar);
+  machineIP = '64.22.81.244'
+  userId = 'smartfoxserver'
+  password = 's1m2a3r4t5'
+  destinationDirectory ='/home/smartfoxserver/extensionJars/'
+  echo(message: "Copying ${jarFilePath} to ${machineIP}")
+  Ant.scp(toDir: "${userId}@${machineIP}:/${destinationDirectory}", password:password, verbose: true, trust : true){
+    fileset(file: jarFilePath);
+  } 
+}
+target (deployDev : 'Deploy jar files to the dev server') {
+  depends(jar);
+  machineIP = '75.127.100.166'
+  userId = 'smartfoxserver'
+  password = 's1m2a3r4t5'
+  destinationDirectory = '/home/smartfoxserver/extensionJars'
+  echo(message: "Copying ${jarFilePath} to ${machineIP}")
+  Ant.scp(toDir: "${userId}@${machineIP}:/${destinationDirectory}", password:password, verbose: true, trust : true){
+    fileset(file: jarFilePath);
+  }  
+}
+
+
+
+setDefaultTarget(jar);

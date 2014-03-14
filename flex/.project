@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>SBRDirectMail</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.adobe.flexbuilder.project.flexbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.adobe.flexbuilder.project.flexnature</nature>
+		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>bin-debug</name>
+			<type>2</type>
+			<location>C:/Program Files/Apache Software Foundation/Apache2.2/htdocs/SBRDirectMail</location>
+		</link>
+		<link>
+			<name>[source path] src</name>
+			<type>2</type>
+			<location>C:/Documents and Settings/Dinkar/projects/DateTimeFlexControl/src</location>
+		</link>
+		<link>
+			<name>[source path] Actionscript 3.0</name>
+			<type>2</type>
+			<location>C:/Program Files/SmartFoxServerPRO_1.6.2/Flash API/Actionscript 3.0</location>
+		</link>
+	</linkedResources>
+</projectDescription>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow 
+		xmlns:mx="http://www.adobe.com/2006/mxml" 
+		layout="absolute" width="400" height="300"
+		title="Login" showCloseButton="true" close="closeLoginWindow(this)">
+	<mx:Script source="LoginScript.as"/>
+	<mx:Form label="Login">
+		<mx:FormItem label="UserName">
+			<mx:TextInput id="userName">
+			</mx:TextInput>
+		</mx:FormItem>
+		<mx:FormItem label="Password">
+			<mx:TextInput id="password" displayAsPassword="true"/>
+		</mx:FormItem>
+		<mx:HBox>
+		<mx:Button label="login" click="loginToServer()"/>
+		<mx:Button label="clear" click="clear()"/>			
+		</mx:HBox>
+	</mx:Form>
+</mx:TitleWindow>
